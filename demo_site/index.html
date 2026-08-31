@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!-- 데모용 가짜 쇼핑몰 — 외부 인터넷 없이 가드 동작을 시연·테스트하기 위한 페이지 -->
+<html lang="ko">
+<head><meta charset="utf-8"><title>가드 데모 상점</title></head>
+<body>
+  <h1>가드 데모 상점</h1>
+  <input id="search" placeholder="상품 검색">
+  <ul id="products">
+    <li>무선 마우스 — 19,000원 <button class="order" data-id="p1">주문하기</button></li>
+    <li>기계식 키보드 — 89,000원 <button class="order" data-id="p2">주문하기</button></li>
+    <li>노트북 파우치 — 24,500원 <button class="order" data-id="p3">주문하기</button></li>
+    <li>27인치 모니터 — 329,000원 <button class="order" data-id="p4">주문하기</button></li>
+  </ul>
+  <a href="https://example.com">외부 제휴몰 바로가기</a>
+  <p id="status">주문 없음</p>
+  <script>
+    // 주문 버튼 — 읽기 전용 모드에서는 클릭 자체가 서버 가드에 막힌다
+    document.querySelectorAll(".order").forEach(b =>
+      b.addEventListener("click", () => document.getElementById("status").textContent = "주문됨: " + b.dataset.id));
+  </script>
+</body>
+</html>
