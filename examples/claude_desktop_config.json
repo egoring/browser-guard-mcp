@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "browser-guard": {
+      "command": "browser-guard-mcp",
+      "env": {
+        "BROWSERGUARD_ALLOWED_DOMAINS": "books.toscrape.com,quotes.toscrape.com",
+        "BROWSERGUARD_READ_ONLY": "true"
+      }
+    }
+  }
+}
