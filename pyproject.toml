@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "browser-guard-mcp"
+version = "0.1.0"
+description = "Browser automation MCP server with layered safety guards: domain allowlist, read-only default, audit log"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["mcp>=1.2", "playwright>=1.40"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+browser-guard-mcp = "browser_guard_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/browser_guard_mcp"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
