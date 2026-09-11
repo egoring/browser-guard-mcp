@@ -9,7 +9,7 @@ description = "Browser automation MCP server with layered safety guards: domain 
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-dependencies = ["mcp>=1.2", "playwright>=1.40"]
+dependencies = ["mcp>=1.2,<2", "playwright>=1.40"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]

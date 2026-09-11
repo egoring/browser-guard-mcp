@@ -39,6 +39,12 @@ LLM 에이전트에 브라우저를 그대로 열어주는 건 위험합니다. 
 
 프롬프트가 아니라 코드가 강제하는 안전입니다.
 
+MCP 클라이언트 없이 가드 동작만 눈으로 보고 싶다면 `examples/` 스크립트 참조:
+
+- `demo_guard.py` — 브라우저 없이 가드 로직만 (도메인 차단·경로 탈출·읽기 전용·텍스트 상한)
+- `demo_browser.py` — 실제 headless Chromium으로 데모 사이트 열기
+- `demo_browser_headed.py` — 브라우저 창을 눈으로 보고 싶을 때 (`headless=False`)
+
 ## 설치
 
 ```bash
@@ -49,7 +55,35 @@ export BROWSERGUARD_ALLOWED_DOMAINS="books.toscrape.com,quotes.toscrape.com"
 export BROWSERGUARD_READ_ONLY="true"   # 기본값 — 조회·스크린샷만
 ```
 
-Claude Desktop 설정은 [examples/](examples/claude_desktop_config.json) 참조.
+위 명령으로 설치하면 `browser-guard-mcp` 커맨드가 생깁니다 (`pyproject.toml`의 `[project.scripts]`). 이 자체로는 그냥 실행 가능한 서버일 뿐이고, 실제로 에이전트가 쓰게 하려면 MCP 클라이언트에 등록해야 합니다.
+
+### MCP 클라이언트에 연결
+
+**Claude Desktop** — [examples/claude_desktop_config.json](examples/claude_desktop_config.json) 내용을 `claude_desktop_config.json`에 병합 후 재시작:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "browser-guard": {
+      "command": "browser-guard-mcp",
+      "env": {
+        "BROWSERGUARD_ALLOWED_DOMAINS": "books.toscrape.com,quotes.toscrape.com",
+        "BROWSERGUARD_READ_ONLY": "true"
+      }
+    }
+  }
+}
+```
+
+**Claude Code(CLI)**:
+
+```bash
+claude mcp add browser-guard -- browser-guard-mcp
+```
+
+가상환경에만 설치했다면 클라이언트가 PATH에서 `browser-guard-mcp`를 못 찾을 수 있습니다 — 이때는 `command`에 절대경로(예: `/path/to/.venv/bin/browser-guard-mcp`)를 지정하세요.
 
 ## 테스트
 

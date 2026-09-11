@@ -35,8 +35,10 @@ class PlaywrightSession:
         self._pw = sync_playwright().start()
         browser = self._pw.chromium.launch(headless=True)
         context = browser.new_context(accept_downloads=False)
-        context.on("page", lambda p: p.close())  # 팝업·새 탭은 열리는 즉시 닫는다
         self._page = context.new_page()
+        # 메인 페이지를 먼저 만든 뒤 리스너를 등록해야 한다 —
+        # 순서가 바뀌면 new_page()가 발생시키는 "page" 이벤트에 메인 페이지 자신이 걸려 곧바로 닫힌다.
+        context.on("page", lambda p: p.close() if p is not self._page else None)
         return self._page
 
     def goto(self, url: str) -> dict:
